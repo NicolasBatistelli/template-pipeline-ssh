@@ -1,90 +1,90 @@
-# Jenkins Pipeline for Branch Deployment
+# Pipeline de Jenkins para Despliegue de Ramas
 
-This repository contains a Jenkins pipeline script designed to deploy specific branches to a remote server using SSH. The pipeline allows for dynamic branch selection and provides detailed feedback during execution.
-
----
-
-## Features
-
-- **Dynamic Branch Selection**: Allows the user to specify the branch to deploy through a pipeline parameter.
-- **Build Information Display**: Captures and displays key build details, including the branch being deployed and the user who triggered the build.
-- **Remote Deployment via SSH**: Executes a deployment script on a remote server using SSH.
-- **Error Handling**: Validates SSH command execution and provides meaningful error messages in case of failures.
+Este repositorio contiene un script de pipeline de Jenkins diseñado para desplegar ramas específicas en un servidor remoto usando SSH. El pipeline permite una selección dinámica de ramas y proporciona retroalimentación detallada durante su ejecución.
 
 ---
 
-## Pipeline Overview
+## Características
 
-The pipeline is divided into two main stages:
-
-### 1. **Build Info**
-- Captures details about the build trigger, including the user who initiated it.
-- Updates the build display name in Jenkins with relevant information:
-  - Build number
-  - Branch being deployed
-  - User who triggered the build
-
-### 2. **Deploy**
-- Executes a remote deployment script via SSH, passing the selected branch as a parameter.
-- Validates the result of the SSH command.
-- Catches and handles exceptions to ensure proper error reporting.
+- **Selección Dinámica de Ramas**: Permite al usuario especificar la rama a desplegar a través de un parámetro del pipeline.
+- **Visualización de Información de la Construcción**: Captura y muestra detalles clave de la construcción, incluyendo la rama que se está desplegando y el usuario que activó la construcción.
+- **Despliegue Remoto vía SSH**: Ejecuta un script de despliegue en un servidor remoto usando SSH.
+- **Manejo de Errores**: Valida la ejecución de comandos SSH y proporciona mensajes de error significativos en caso de fallos.
 
 ---
 
-## Prerequisites
+## Visión General del Pipeline
 
-1. **Jenkins Setup**:
-   - A Jenkins instance with the ability to execute pipelines.
-   - The SSH key of the Jenkins user added to the remote server's authorized keys.
+El pipeline se divide en dos etapas principales:
 
-2. **Remote Server**:
-   - The server should have the deployment script (`deploy.sh`) available and executable.
-   - The script should support branch deployment. For example:
+### 1. **Información de la Construcción**
+- Captura detalles sobre el disparador de la construcción, incluyendo el usuario que la inició.
+- Actualiza el nombre de la construcción en Jenkins con la información relevante:
+  - Número de la construcción
+  - Rama que se está desplegando
+  - Usuario que disparó la construcción
+
+### 2. **Despliegue**
+- Ejecuta un script de despliegue remoto vía SSH, pasando la rama seleccionada como parámetro.
+- Valida el resultado del comando SSH.
+- Captura y maneja excepciones para asegurar una correcta reportación de errores.
+
+---
+
+## Requisitos Previos
+
+1. **Configuración de Jenkins**:
+   - Una instancia de Jenkins con capacidad para ejecutar pipelines.
+   - La clave SSH del usuario de Jenkins debe estar añadida a las claves autorizadas del servidor remoto.
+
+2. **Servidor Remoto**:
+   - El servidor debe tener el script de despliegue (`deploy.sh`) disponible y ejecutable.
+   - El script debe soportar el despliegue de ramas. Por ejemplo:
      ```bash
      #!/bin/bash
      BRANCH=$1
-     echo "Deploying branch: $BRANCH"
+     echo "Desplegando la rama: $BRANCH"
      git checkout $BRANCH
      git pull origin $BRANCH
-     # Add deployment steps here
+     # Añadir pasos de despliegue aquí
      ```
 
 ---
 
-## Usage
+## Uso
 
-### Pipeline Parameters
-The pipeline requires the following parameter:
-- **BRANCH**: The name of the branch to deploy.
+### Parámetros del Pipeline
+El pipeline requiere el siguiente parámetro:
+- **BRANCH**: El nombre de la rama a desplegar.
 
-### Example Execution
-1. Trigger the pipeline in Jenkins.
-2. Enter the branch name (e.g., `main`, `feature-xyz`) in the `BRANCH` parameter field.
-3. Observe the build progress and results in the Jenkins console output.
-
----
-
-## Script Details
+### Ejecución de Ejemplo
+1. Dispara el pipeline en Jenkins.
+2. Introduce el nombre de la rama (por ejemplo, `main`, `feature-xyz`) en el campo de parámetro `BRANCH`.
+3. Observa el progreso y los resultados de la construcción en la salida de consola de Jenkins.
 
 ---
 
-## Error Handling
-
-1. **SSH Command Validation**:
-   - Ensures the deployment script on the remote server executed successfully.
-   - Provides an error message if the command returns a non-zero exit code.
-
-2. **Exception Handling**:
-   - Captures exceptions during pipeline execution and reports them with detailed messages.
+## Detalles del Script
 
 ---
 
-## Contributing
+## Manejo de Errores
 
-Feel free to submit issues or pull requests for improvements to the pipeline.
+1. **Validación del Comando SSH**:
+   - Asegura que el script de despliegue en el servidor remoto se haya ejecutado correctamente.
+   - Proporciona un mensaje de error si el comando devuelve un código de salida distinto de cero.
+
+2. **Manejo de Excepciones**:
+   - Captura las excepciones durante la ejecución del pipeline y las reporta con mensajes detallados.
 
 ---
 
-## License
+## Contribuciones
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+No dudes en enviar problemas o solicitudes de extracción para mejorar el pipeline.
+
+---
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
